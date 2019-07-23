@@ -5,7 +5,7 @@ using System.Text;
 namespace RAPIlib
 {
     /// <summary>
-    /// перечень используемых констант (длин структур)
+    /// consts  (structer's length)
     /// </summary>
     public static class raConstants
     {
@@ -15,8 +15,8 @@ namespace RAPIlib
     }
    
     /// <summary>
-    /// класс-родитель для структур KeyType и HashType
-    /// расширенный массив байт
+    /// class-parent for structs KeyType and HashType
+    /// extended byte array
     /// </summary>
     public class Tarr : IEquatable<Tarr>
     {
@@ -45,25 +45,25 @@ namespace RAPIlib
         }
 
         /// <summary>
-        /// конструктор по умолчанию - пустой массив заданной длины
+        /// defautl constructor empty byte array set length 
         /// </summary>
-        /// <param name="init_sz">длина массива</param>
+        /// <param name="init_sz">array's length</param>
         public Tarr(int init_sz) {  data = new byte[init_sz]; }
         /// <summary>
-        /// создает объект Tarr  из байтового массива
+        /// create Tarr object from a byte array
         /// </summary>
         /// <param name="init_arr">исходный массив байт</param>
         public Tarr(byte[] init_arr) { data = new byte[init_arr.Length];init_arr.CopyTo(data, 0); }
         /// <summary>
-        /// создает объект Tarr  из байтового массива с контролем длины (для дочерних классовЗ
+        /// сreate Tarr object from byte array with length's control (child classes)
         /// </summary>
-        /// <param name="init_arr">исходный массив</param>
-        /// <param name="i_sz">заданная длина</param>
+        /// <param name="init_arr">initial array </param>
+        /// <param name="i_sz">set length</param>
         public Tarr(byte[] init_arr,int i_sz) { if (i_sz == init_arr.Length) { data = new byte[init_arr.Length]; init_arr.CopyTo(data, 0); } }
         /// <summary>
-        /// перегруженный оператор
+        /// overload operator
         /// </summary>
-        /// <returns>представление массива байт в виде строки Х2</returns>
+        /// <returns>represent byte array into string Х2</returns>
         public override string ToString()
         {
             string ret = "";
@@ -72,9 +72,9 @@ namespace RAPIlib
             return ret;
         }
         /// <summary>
-        /// конвертирует строку Х2 в массив (обратно методу ToString)
+        /// convert string Х2 into array(back method to ToString)
         /// </summary>
-        /// <param name="str">строка Х2</param>
+        /// <param name="str">string Х2</param>
         public void FromString(string str)
         {
             if (str.Length==(sz*2))
@@ -84,9 +84,9 @@ namespace RAPIlib
             }
         }
         /// <summary>
-        /// проверка на пустой (нулевой) массив
+        /// check on empty (zero) массив
         /// </summary>
-        /// <returns>возвр. true если все байты равны 0</returns>
+        /// <returns>returns true if all bytes equal to 0</returns>
         public bool empty()
         {
             bool result = true;
@@ -101,7 +101,7 @@ namespace RAPIlib
             return result;
         }
         /// <summary>
-        /// копирует содержимое одного Tarr в текущий
+        /// copy content one Tarr into current
         /// </summary>
         /// <param name="t2"></param>
         public void Apply(Tarr t2)
@@ -113,7 +113,7 @@ namespace RAPIlib
             
         }
         /// <summary>
-        /// копирует содержимое массива байт в текущий объект
+        /// copy content of byte array into current
         /// </summary>
         /// <param name="t2"></param>
         public void Apply(byte[] t2)
@@ -126,7 +126,7 @@ namespace RAPIlib
         }
     }
     /// <summary>
-    /// класс представляющий 64 байтовый массив (приватный ключ, хеш блока, сигнатура транзакции и т.д.
+    /// class contains 64 byte array (private key, block hash, transaction signature
     /// </summary>
     public class HashType : Tarr
     {
@@ -134,7 +134,7 @@ namespace RAPIlib
         public HashType(byte[] bytes) : base(bytes,raConstants.szHashType) { }
     }
     /// <summary>
-    /// класс представляющий 32-байтовый массив (публичный ключ)
+    /// class contains 32-byte array (public key)
     /// </summary>
     public class KeyType:Tarr
     {
@@ -142,7 +142,7 @@ namespace RAPIlib
         public KeyType(byte[] bytes) : base(bytes, raConstants.szKeyType) { }
     }
     /// <summary>
-    /// класс представляет транзакцию
+    /// Transaction class
     /// </summary>
     public class Transaction
     {
@@ -154,7 +154,7 @@ namespace RAPIlib
         public string currency;
         public KeyType salt;
         /// <summary>
-        /// инициализирует пустую транзакцию
+        /// init empty Transaction
         /// </summary>
         public Transaction()
         {
@@ -165,9 +165,9 @@ namespace RAPIlib
             salt = new KeyType();
         }
         /// <summary>
-        /// инициализирует структуру и заполняет ее значениями из массива байт
+        /// Init structure и fill field with value from byte array 
         /// </summary>
-        /// <param name="bytes">исх массив</param>
+        /// <param name="bytes">array</param>
         public Transaction(byte[] bytes):this()
         {
             if (bytes.Length == raConstants.szTransaction)
@@ -182,12 +182,12 @@ namespace RAPIlib
             }
         }
         /// <summary>
-        /// возвращает транзакцию или часть в виде массива байт (для передачи в сеть)
+        /// return transaction or part as byte array (for sending)
         /// </summary>
-        /// <param name="offset">смещение в результирующем массиве</param>
-        /// <param name="length">длина результирующего массива</param>
-        /// <remarks> если оба параметра==0 возвращается массив целиком (default)</remarks>
-        /// <returns>массив байт</returns>
+        /// <param name="offset">offset in got array </param>
+        /// <param name="length">length of got array</param>
+        /// <remarks> if params==0 return full array (default)</remarks>
+        /// <returns>byte array</returns>
         public byte[] GetBytes(int offset=0,int length=0)
         {
             byte[] result = new byte[raConstants.szTransaction];
@@ -211,16 +211,16 @@ namespace RAPIlib
         }
     }
     /// <summary>
-    /// класс представление суммы транзакции
+    /// amount class of transaction
     /// </summary>
     public class Amount
     {
         /// <summary>
-        /// "старшая" часть суммы
+        /// "integral" part of amout
         /// </summary>
         public UInt32 hight;
         /// <summary>
-        /// "младшая" часть суммы
+        /// "fraction" par of amount
         /// </summary>
         public UInt64 low ;
         public Amount() { hight = 0;low = 0; }
